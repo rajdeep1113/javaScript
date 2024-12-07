@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 id="head"></h1>
+    <img id="image" src="" alt="">
+    <button id="back">Back</button>
+    <button id="next">Next</button>
+    <style>
+      img{
+        width: 500px;
+        height: 500px;
+        display: block;
+        border-radius: 40px;
+        border: solid black 2px;
+      }
+      button{
+        height: 100px;
+        width: 100px;
+        margin-left: 100px;
+        border-radius: 50%;
+        background-color: aqua;
+        border: none;
+      }
+    </style>
+    <script>
+      
+      
+      let data = [ 
+     'https://m.media-amazon.com/images/I/8157jzWk-8L._AC_UF1000,1000_QL80_.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZcGQ4kQ2DALs-uNBJEUePxKWa-hRDHle3aaKt2Bowv3PI3j96Un_huixoTWIIYR42OdM&usqp=CAU',
+       'https://wallpapers.com/images/hd/tom-and-jerry-4k-dance-spotlight-m3qej8mwcq9irnn8.jpg',
+      ];
+      let count = 0;
+      function show() {
+        const img = document.getElementById('image'); 
+        let heading = document.getElementById("head");
+        img.src = data[count]
+      }
+
+      let nextBtn = document.getElementById("next");
+      nextBtn.addEventListener("click", () => {
+        console.log(count);
+       if(count == data.length-1){
+        count=0;
+
+       }else{
+        count++
+       }
+       
+        show();
+      });
+
+      let backBtn = document.getElementById("back");
+      backBtn.addEventListener("click", () => {
+        if(count == 0){
+          count=data.length-1;
+      }else{
+        count--;
+      }
+     
+        show();
+      });
+
+      show()
+      
+    </script>
+  </body>
+</html>
