@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer</title>
+  <style>
+    h1{
+      font-size: 200px;
+      text-align: center;
+      color: red;
+    }
+  </style>
 </head>
 <body>
-    
-
-
-<script>
-
-let count=0
-let id = setInterval(() => {
-  console.log(count);
-
-  if (count === 5) {
-    clearInterval(id);
-    console.log("stop")
-  }
-  count++
-}, 1000);
-
-</script>
+  <span><h1 id="count"></h1></span>
+  <script>
+   let count = 10;
+   let num = setInterval(function() {
+    document.getElementById("count").innerHTML = count;
+    count--;
+    if (count < 0) {
+      clearInterval(num);
+      document.getElementById("count").innerHTML = "Let's Goooo";
+    }
+  }, 1000);
+  </script>
 
 </body>
 </html>
