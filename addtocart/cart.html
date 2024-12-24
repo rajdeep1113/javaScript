@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #e4e5f1, #f3f4f9);
+            color: #333;
+            padding: 0;
+        }
+
+        .imageCard {
+            border-radius: 15px;
+            height: 150px;
+            width: auto;
+            object-fit: cover;
+            margin: 10px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 90%;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .cartdiv {
+            display: flex;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #5d54a4, #7c78b8);
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #ff7f50, #ff6347);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            color: #fff;
+            text-align: center;
+            font-size: 16px;
+            padding: 20px;
+            width: 280px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background-color: #008080;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #006666;
+            transform: scale(1.1);
+        }
+
+        button:active {
+            background-color: #004d4d;
+        }
+
+        p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        #total {
+            text-align: center;
+            margin: 20px auto;
+            padding: 15px;
+            background: linear-gradient(135deg, #6a5acd, #836fff);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 10px;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="container"></div>
+    <div id="total"></div>
+    <script>
+        // Your existing JavaScript code remains unchanged
+        let cartdata = JSON.parse(localStorage.getItem("cartData"));
+        console.log(cartdata);
+
+        let container = document.querySelector("#container");
+
+        function showdata() {
+            let headTotal = document.getElementById("total");
+            let allTotal = 0;
+
+            container.innerHTML = "";
+            cartdata.forEach((product, index) => {
+                let card = document.createElement("div");
+                let buttoncontainer = document.createElement("div");
+                card.className = "card";
+                buttoncontainer.className = "buttoncart";
+                let productTotal = product.price; // Initialize productTotal
+                let title = document.createElement("p");
+                title.innerText = product.title;
+                let price = document.createElement("p");
+                price.innerText = product.price;
+                let image = document.createElement("img");
+                image.src = product.image;
+                image.className = "imageCard";
+                let quantityNum = 1;
+
+                let decbutton = document.createElement("button");
+                decbutton.textContent = ("-");
+                decbutton.addEventListener("click", () => {
+                    if (quantityNum > 1) {
+                        allTotal -= product.price; // Deduct price from allTotal
+                        quantityNum--;
+                        productTotal = quantityNum * product.price;
+                        quantity.innerText = quantityNum;
+                        headTotal.innerText = allTotal;
+                    }
+                });
+
+                let quantity = document.createElement("span");
+                quantity.innerText = quantityNum;
+                let incbutton = document.createElement("button");
+                incbutton.textContent = ("+");
+                incbutton.addEventListener("click", () => {
+                    quantityNum++;
+                    allTotal += product.price; // Add price to allTotal
+                    productTotal = quantityNum * product.price;
+                    quantity.innerText = quantityNum;
+                    headTotal.innerText = allTotal;
+                });
+
+                allTotal += productTotal; // Add initial product price to allTotal
+
+                let remove = document.createElement("button");
+                remove.innerText = ("Remove");
+                remove.addEventListener("click", () => {
+                    allTotal -= productTotal; // Deduct productTotal on remove
+                    cartdata = cartdata.filter((element, i) => i !== index);
+                    localStorage.setItem("cartData", JSON.stringify(cartdata));
+                    showdata();
+                });
+
+                card.append(image, title, price, decbutton, quantity, incbutton, remove);
+                container.append(card);
+            });
+
+            headTotal.innerText = allTotal; // Display the total price
+        }
+
+        showdata();
+    </script>
+</body>
+
+</html>
