@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Dog Api</h1>
+    <button id="btn">Random fetch</button>
+    <br>
+    <img id="image" src="" alt="" height="400px">
+    <script>
+        let image = document.querySelector("#image")
+        let btn = document.querySelector("#btn")
+        btn.addEventListener("click", fetchData)
+        function fetchData() {
+            fetch("https://dog.ceo/api/breeds/image/random")
+                .then((response) => response.json())
+                .then((res) => {
+                    console.log(res);
+                    image.src = res.message
+
+                }).catch((error) => {
+                    console.log(error);
+                });
+        }
+        fetchData();
+    </script>
+
+</body>
+
+</html>
