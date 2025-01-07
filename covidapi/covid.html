@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COVID-19 Tracker</title>
+
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        background-color: #2d3436; /* Dark background for contrast */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #container {
+        background: linear-gradient(145deg, #6a89cc, #4a69bd); /* Gradient background */
+        padding: 25px 30px;
+        border-radius: 12px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); /* Strong shadow for depth */
+        text-align: center;
+        color: white;
+        max-width: 400px;
+        width: 90%;
+      }
+      #container p {
+        margin: 15px 0;
+        font-size: 18px;
+        line-height: 1.6;
+      }
+      #container p strong {
+        color: #ffeaa7; /* Highlight text with golden color */
+      }
+      #container::after {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 4px;
+        background-color: #ffeaa7;
+        margin: 15px auto 0;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">Loading data...</div>
+
+    <script>
+      async function showData() {
+        const url = 'https://covid-19-tracking.p.rapidapi.com/v1/india';
+        const options = {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-key': '739f3c32ccmshcef71aea7b9e6bdp133edfjsn8bdd2d6cd00f',
+            'x-rapidapi-host': 'covid-19-tracking.p.rapidapi.com',
+          },
+        };
+
+        try {
+          const response = await fetch(url, options);
+          const result = await response.json();
+
+          document.getElementById('container').innerHTML = `
+            <p><strong>Country:</strong> ${result.Country_text || 'India'}</p>
+            <p><strong>Confirmed Cases:</strong> ${result['Total Cases_text'] || 'N/A'}</p>
+            <p><strong>Deaths:</strong> ${result['Total Deaths_text'] || 'N/A'}</p>
+            <p><strong>Recovered:</strong> ${result['Total Recovered_text'] || 'N/A'}</p>
+            <p><strong>Last Update:</strong> ${result['Last Update'] || 'N/A'}</p>
+          `;
+        } catch (error) {
+          document.getElementById('container').innerHTML =
+            '<p>Failed to fetch data. Please try again later.</p>';
+          console.error(error);
+        }
+      }
+
+      showData();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333; /* Dark text color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #container {
+            text-align: center;
+            background: #fff; /* White background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            color: #007acc; /* Blue color for the heading */
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container"></div>
+
+    <script>
+        const apikey = "ee00f0931ee9d5bf60ca286cbd6c50f1";
+        const apiUrl =
+          `https://api.openweathermap.org/data/2.5/weather?units=metric&q=pune`;
+    
+        fetch(`${apiUrl}&appid=${apikey}`) // Corrected concatenation here
+          .then((response) => {
+            return response.json();
+          })
+          .then((response) => {
+            console.log(response);
+            let container = document.getElementById("container");
+            container.innerHTML = `
+              <h2>Weather Information</h2>
+              <p>City: ${response.name}</p>
+              <p>Temperature: ${response.main.temp}°C</p>
+              <p>Humidity: ${response.main.humidity}%</p>`;
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    </script>
+</body>
+</html>
