@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puma Store</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    
+    <style>
+        /* General Page Styling */
+        body {
+            background-color: #0a192f;
+            color: #ffffff;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Navbar */
+        .cartdiv {
+            display: flex;
+            justify-content: flex-end;
+            padding: 15px 20px;
+            background-color: #1f4068;
+            border-bottom: 3px solid #162447;
+        }
+
+        .carticon {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 50px;
+            height: 50px;
+        }
+
+        .carticon:hover {
+            transform: scale(1.2);
+        }
+
+        /* Carousel */
+        .carousel img {
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Product Section */
+        #container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            background-color: #112240;
+            text-align: center;
+            font-size: 16px;
+            width: 280px;
+            padding: 20px;
+            color: #ffffff;
+            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .imageCard {
+            border-radius: 15px;
+            height: 180px;
+            object-fit: contain;
+            background-color: #ffffff;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card button {
+            background-color: #ffb400;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .card button:hover {
+            background-color: #ff9100;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #112240;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #ffb400;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="cartdiv">
+        <a href="cart.html">
+            <img class="carticon" src="https://img.icons8.com/ios-filled/50/ffb400/shopping-cart.png" alt="Shopping Cart" />
+        </a>
+    </div>
+
+    <!-- Carousel -->
+    <div id="productCarousel" class="carousel slide container mt-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto/global/374915/01/sv01/fnd/IND/fmt/png" class="d-block w-100" alt="PUMA Shoes">
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto/global/390201/01/sv01/fnd/IND/fmt/png" class="d-block w-100" alt="PUMA Sneakers">
+            </div>
+            <div class="carousel-item">
+                <img src="https://images.puma.com/image/upload/f_auto,q_auto/global/371149/01/sv01/fnd/IND/fmt/png" class="d-block w-100" alt="PUMA Future Rider">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#productCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#productCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <!-- Product List -->
+    <div id="container"></div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem("cartData")) || [];
+        let products = [
+            {
+                title: "PUMA Suede Classic XXI",
+                price: 7000,
+                image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_450,h_450/global/374915/01/sv01/fnd/IND/fmt/png"
+            },
+            {
+                title: "PUMA RS-X Efekt PRM Sneakers",
+                price: 10000,
+                image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_450,h_450/global/390201/01/sv01/fnd/IND/fmt/png"
+            },
+            {
+                title: "PUMA Future Rider Play On",
+                price: 8000,
+                image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_450,h_450/global/371149/01/sv01/fnd/IND/fmt/png"
+            },
+            {
+                title: "PUMA Cali Star Metallic",
+                price: 9000,
+                image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_450,h_450/global/380176/01/sv01/fnd/IND/fmt/png"
+            },
+            {
+                title: "PUMA Flyer Runner Engineered Knit",
+                price: 6000,
+                image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_450,h_450/global/192257/01/sv01/fnd/IND/fmt/png"
+            },
+            {
+                title: "PUMA X-Ray² Square",
+                price: 7500,
+                image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_450,h_450/global/373108/01/sv01/fnd/IND/fmt/png"
+            }
+        ];
+
+        let container = document.querySelector("#container");
+
+        function showdata() {
+            container.innerHTML = "";
+            products.forEach((product) => {
+                let card = document.createElement("div");
+                let buttoncontainer = document.createElement("div");
+                card.className = "card";
+                buttoncontainer.className = "buttoncard";
+
+                let title = document.createElement("p");
+                title.innerText = product.title;
+                let price = document.createElement("p");
+                price.innerText = "₹" + product.price; /* Added rupee symbol */
+                let image = document.createElement("img");
+                image.src = product.image;
+                image.className = "imageCard";
+
+                let span = document.createElement("span");
+                let buttoncard = document.createElement("button");
+                buttoncard.innerText = "Add to Cart";
+                buttoncard.addEventListener("click", () => {
+                    cart.push(product);
+                    localStorage.setItem("cartData", JSON.stringify(cart));
+                    showdata();
+                });
+
+                card.append(image, title, price, span, buttoncard);
+                container.append(card);
+            });
+        }
+        showdata();
+    </script>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Puma Store. All Rights Reserved.</p>
+        <p>
+            <a href="#">Privacy Policy</a> | 
+            <a href="#">Terms of Service</a> | 
+            <a href="#">Contact Us</a>
+        </p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
